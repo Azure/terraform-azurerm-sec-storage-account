@@ -3,15 +3,15 @@ provider "azurerm" {
   features {}
 }
 
-resource "random_string" "resource_group_name_prefix" {
-  length    = 5
-  special   = false
-  lower     = true
-  min_lower = 5
+locals {
+  unique_name_stub = substr(module.naming.unique-seed, 0, 5)
 }
 
+module "naming" {
+  source = "git::https://github.com/Azure/terraform-azurerm-naming"
+}
 resource "azurerm_resource_group" "test_group" {
-  name     = "rg-storage-account-full-test-${random_string.resource_group_name_prefix.result}"
+  name     = "${module.naming.resource_group.slug}-${module.naming.storage_account.slug}-min-test-${local.unique_name_stub}"
   location = "uksouth"
 }
 
@@ -39,4 +39,6 @@ module "terraform-azurerm-storage" {
   allowed_ip_ranges                    = [data.external.test_client_ip.result.ip]
   permitted_virtual_network_subnet_ids = [azurerm_subnet.subnet.id]
   bypass_internal_network_rules        = true
+  #enable_data_lake_filesystem          = true
+  #data_lake_filesystem_name            = module.naming.data_lake_file_system.name_unique
 }

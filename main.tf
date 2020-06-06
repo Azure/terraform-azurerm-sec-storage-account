@@ -15,7 +15,7 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier              = var.storage_account_tier
   account_replication_type  = var.storage_account_replication_type
   enable_https_traffic_only = true
-  is_hns_enabled            = var.enable_datalake_filesystem
+  is_hns_enabled            = var.enable_data_lake_filesystem
   account_kind              = "StorageV2"
   network_rules {
     default_action             = "Deny"
@@ -40,8 +40,8 @@ resource "azurerm_role_assignment" "role_assignment" {
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_gen2_filesystem" {
-  name               = length(var.datalake_filesystem_name) == 0 ? module.naming.data_lake_file_system.name_unique : var.datalake_filesystem_name
+  name               = length(var.data_lake_filesystem_name) == 0 ? module.naming.data_lake_file_system.name_unique : var.data_lake_filesystem_name
   storage_account_id = azurerm_storage_account.storage_account.id
   depends_on         = [azurerm_role_assignment.role_assignment]
-  count              = var.enable_datalake_filesystem ? 1 : 0
+  count              = var.enable_data_lake_filesystem ? 1 : 0
 }

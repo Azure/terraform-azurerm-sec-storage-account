@@ -41,13 +41,13 @@ variable "bypass_internal_network_rules" {
   default     = true
 }
 
-variable "enable_datalake_filesystem" {
+variable "enable_data_lake_filesystem" {
   type        = bool
   description = "Install a datalake filesystem create."
   default     = false
 }
 
-variable "datalake_filesystem_name" {
+variable "data_lake_filesystem_name" {
   type        = string
   description = "The name of the datalake file system."
   default     = ""
