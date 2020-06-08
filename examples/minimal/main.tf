@@ -16,6 +16,6 @@ resource "azurerm_resource_group" "test_group" {
 }
 
 module "terraform-azurerm-storage" {
-  source              = "../"
+  source              = "../../"
   resource_group_name = azurerm_resource_group.test_group.name
 }

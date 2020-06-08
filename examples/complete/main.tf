@@ -11,7 +11,7 @@ module "naming" {
   source = "git::https://github.com/Azure/terraform-azurerm-naming"
 }
 resource "azurerm_resource_group" "test_group" {
-  name     = "${module.naming.resource_group.slug}-${module.naming.storage_account.slug}-min-test-${local.unique_name_stub}"
+  name     = "${module.naming.resource_group.slug}-${module.naming.storage_account.slug}-max-test-${local.unique_name_stub}"
   location = "uksouth"
 }
 
@@ -31,7 +31,7 @@ resource "azurerm_subnet" "subnet" {
 }
 
 module "terraform-azurerm-storage" {
-  source                               = "../"
+  source                               = "../../"
   resource_group_name                  = azurerm_resource_group.test_group.name
   storage_account_name                 = "testsafull"
   storage_account_tier                 = "Standard"
