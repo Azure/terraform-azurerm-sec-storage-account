@@ -40,7 +40,7 @@ resource "azurerm_role_assignment" "role_assignment" {
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_gen2_filesystem" {
-  name               = length(var.data_lake_filesystem_name) == 0 ? module.naming.data_lake_file_system.name_unique : var.data_lake_filesystem_name
+  name               = length(var.data_lake_filesystem_name) == 0 ? module.naming.storage_data_lake_gen2_filesystem.name_unique : var.data_lake_filesystem_name
   storage_account_id = azurerm_storage_account.storage_account.id
   depends_on         = [azurerm_role_assignment.role_assignment]
   count              = var.enable_data_lake_filesystem ? 1 : 0
