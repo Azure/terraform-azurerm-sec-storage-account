@@ -4,7 +4,7 @@ provider "azurerm" {
 }
 
 locals {
-  unique_name_stub = substr(module.naming.unique-seed, 0, 5)
+  unique_name_stub = substr(module.naming.unique-seed, 0, 3)
 }
 
 module "naming" {
@@ -33,12 +33,12 @@ resource "azurerm_subnet" "subnet" {
 module "terraform-azurerm-storage" {
   source                               = "../../"
   resource_group_name                  = azurerm_resource_group.test_group.name
-  storage_account_name                 = "testsafull"
+  storage_account_name                 = "testsafull${local.unique_name_stub}"
   storage_account_tier                 = "Standard"
   storage_account_replication_type     = "LRS"
   allowed_ip_ranges                    = [data.external.test_client_ip.result.ip]
   permitted_virtual_network_subnet_ids = [azurerm_subnet.subnet.id]
   bypass_internal_network_rules        = true
-  #enable_data_lake_filesystem          = true
-  #data_lake_filesystem_name            = module.naming.data_lake_file_system.name_unique
+  enable_data_lake_filesystem          = true
+  data_lake_filesystem_name            = module.naming.storage_data_lake_gen2_filesystem.name_unique
 }
