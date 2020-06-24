@@ -44,7 +44,7 @@ resource "time_sleep" "role_assignment_wait" {
     azurerm_role_assignment.role_assignment
   ]
 
-  create_duration = "180s"
+  create_duration = "360s"
   count           = var.enable_data_lake_filesystem ? 1 : 0 
 }
 
