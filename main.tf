@@ -26,17 +26,23 @@ resource "azurerm_storage_account" "storage_account" {
   identity {
     type = "SystemAssigned"
   }
+
+  depends_on = [null_resource.module_depends_on]
 }
 
 resource "azurerm_advanced_threat_protection" "storage_atp" {
   target_resource_id = azurerm_storage_account.storage_account.id
   enabled            = true
+
+  depends_on = [null_resource.module_depends_on]
 }
 
 resource "azurerm_role_assignment" "role_assignment" {
   scope                = azurerm_storage_account.storage_account.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_client_config.user.object_id
+
+  depends_on = [null_resource.module_depends_on]
 }
 
 resource "time_sleep" "role_assignment_wait" {
@@ -53,4 +59,10 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_gen2_filesystem"
   storage_account_id = azurerm_storage_account.storage_account.id
   depends_on         = [time_sleep.role_assignment_wait]
   count              = var.enable_data_lake_filesystem ? 1 : 0
+}
+
+resource "null_resource" "module_depends_on" {
+  triggers = {
+    value = length(var.module_depends_on)
+  }
 }
