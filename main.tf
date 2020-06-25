@@ -39,7 +39,7 @@ resource "azurerm_role_assignment" "role_assignment" {
   principal_id         = data.azurerm_client_config.user.object_id
 }
 
-resource "time_sleep" "role_assignment_wait" {
+resource "time_sleep" "until_role_assignment" {
   depends_on = [
     azurerm_role_assignment.role_assignment
   ]
@@ -51,6 +51,6 @@ resource "time_sleep" "role_assignment_wait" {
 resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_gen2_filesystem" {
   name               = length(var.data_lake_filesystem_name) == 0 ? module.naming.storage_data_lake_gen2_filesystem.name_unique : var.data_lake_filesystem_name
   storage_account_id = azurerm_storage_account.storage_account.id
-  depends_on         = [time_sleep.role_assignment_wait]
+  depends_on         = [time_sleep.until_role_assignment]
   count              = var.enable_data_lake_filesystem ? 1 : 0
 }
