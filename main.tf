@@ -50,8 +50,8 @@ resource "time_sleep" "until_role_assignment" {
     azurerm_role_assignment.role_assignment
   ]
 
-  create_duration = "360s"
-  count           = var.enable_data_lake_filesystem ? 1 : 0 
+  create_duration = "720s"
+  count           = var.enable_data_lake_filesystem ? 1 : 0
 }
 
 resource "azurerm_storage_data_lake_gen2_filesystem" "data_lake_gen2_filesystem" {
