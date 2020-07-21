@@ -10,8 +10,8 @@ module "naming" {
 
 resource "azurerm_storage_account" "storage_account" {
   name                      = length(var.storage_account_name) == 0 ? module.naming.storage_account.name_unique : var.storage_account_name
-  resource_group_name       = data.azurerm_resource_group.base.name
-  location                  = data.azurerm_resource_group.base.location
+  resource_group_name       = var.resource_group_name
+  location                  = var.resource_group_location
   account_tier              = var.storage_account_tier
   account_replication_type  = var.storage_account_replication_type
   enable_https_traffic_only = true
