@@ -57,7 +57,3 @@ variable "data_lake_filesystem_name" {
   description = "The name of the datalake file system."
   default     = ""
 }
-
-variable "module_depends_on" {
-  default = [""]
-}
