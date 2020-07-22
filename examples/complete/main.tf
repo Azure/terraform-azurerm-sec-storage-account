@@ -33,6 +33,7 @@ resource "azurerm_subnet" "subnet" {
 module "terraform-azurerm-storage" {
   source                               = "../../"
   resource_group_name                  = azurerm_resource_group.test_group.name
+  resource_group_location              = azurerm_resource_group.test_group.location
   storage_account_name                 = "testsafull${local.unique_name_stub}"
   storage_account_tier                 = "Standard"
   storage_account_replication_type     = "LRS"
